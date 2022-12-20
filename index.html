@@ -13,7 +13,7 @@
     </div>
     <script>
         var widthCut = 60
-        var heightCut = 60
+        var heightCut = 90
         var canvas = document.getElementById("myCanvas");
         var ctx = canvas.getContext("2d");
         ctx.canvas.width = 600
@@ -23,24 +23,23 @@
         var ctxCanvasTarget = canvasTarget.getContext("2d");
         ctxCanvasTarget.canvas.width = widthCut
         ctxCanvasTarget.canvas.height = heightCut
-        
+
         const image = new Image();
         image.src = 'Screenshot_7.png';
 
-        onmousemove = function(e){
-            ctx.drawImage(image, 0, 0)
-
+        onmousemove = function drawRectangleAroundMouse(e){
             console.log("mouse location:", e.clientX, e.clientY)
 
+            ctx.drawImage(image, 0, 0)
             ctx.strokeStyle = "green";
             ctx.strokeRect(e.clientX-50, e.clientY-50, widthCut, heightCut);
         }
 
-        onclick = function(e){
+        onclick = function cropImageWithRectangle(e){
             console.log('clicou!')
 
             let image2 = new Image();
-            image2.src = 'Screenshot_7.png';
+            image2.src = image.src
             ctxCanvasTarget.drawImage(
                 image2,
                 e.clientX-50, // começa a cortar
@@ -56,9 +55,11 @@
 
         document.addEventListener('keydown', (event) => {
             const keyName = event.key;
-
             if (keyName === 's') {
-                alert('s')
+                var a = document.createElement('a')
+                a.setAttribute('download', 'nome_img');
+                a.setAttribute('href', canvasTarget.toDataURL("image/png"));
+                a.click();
             }
         })
 
