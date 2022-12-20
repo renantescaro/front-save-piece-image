@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div>
+        <canvas id="myCanvas"></canvas>
+        <canvas id="canvasTarget"></canvas>
+    </div>
+    <script>
+        var widthCut = 60
+        var heightCut = 60
+        var canvas = document.getElementById("myCanvas");
+        var ctx = canvas.getContext("2d");
+        ctx.canvas.width = 600
+        ctx.canvas.height = 600
+
+        var canvasTarget = document.getElementById("canvasTarget");
+        var ctxCanvasTarget = canvasTarget.getContext("2d");
+        ctxCanvasTarget.canvas.width = widthCut
+        ctxCanvasTarget.canvas.height = heightCut
+        
+        const image = new Image();
+        image.src = 'Screenshot_7.png';
+
+        onmousemove = function(e){
+            ctx.drawImage(image, 0, 0)
+
+            console.log("mouse location:", e.clientX, e.clientY)
+
+            ctx.strokeStyle = "green";
+            ctx.strokeRect(e.clientX-50, e.clientY-50, widthCut, heightCut);
+        }
+
+        onclick = function(e){
+            console.log('clicou!')
+
+            let image2 = new Image();
+            image2.src = 'Screenshot_7.png';
+            ctxCanvasTarget.drawImage(
+                image2,
+                e.clientX-50, // começa a cortar
+                e.clientY-50,
+                widthCut, // comprimento do corte, começa acima
+                heightCut,
+                0, // inicio do canvas atual
+                0,
+                widthCut,
+                heightCut
+            );
+        }
+
+        document.addEventListener('keydown', (event) => {
+            const keyName = event.key;
+
+            if (keyName === 's') {
+                alert('s')
+            }
+        })
+
+    </script>
+</body>
+</html>
